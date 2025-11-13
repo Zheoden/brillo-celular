@@ -1,122 +1,114 @@
 # Brillo Celular
 
-A blank Vite project with TypeScript setup, ready for development.
+## 📋 Requisitos previos
 
-## 📋 Prerequisites
+Antes de comenzar, asegúrate de tener instalados:
 
-Before you begin, ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (se recomienda la versión 22 o superior)
+- npm (incluido con Node.js)
 
-- [Node.js](https://nodejs.org/) (version 18 or higher recommended)
-- npm (comes with Node.js)
+## 🚀 Primeros pasos
 
-## 🚀 Getting Started
+### Instalación
 
-### Installation
-
-1. Clone the repository:
+1. Clona el repositorio:
 
 ```bash
 git clone https://github.com/Zheoden/brillo-celular.git
 cd brillo-celular
 ```
 
-2. Install dependencies:
+2. Instala las dependencias:
 
 ```bash
 npm install
 ```
 
-### Running the Application
+### Ejecutar la aplicación
 
-#### Development Mode
+#### Modo de desarrollo
 
-Start the development server with hot module replacement (HMR):
+Inicia el servidor de desarrollo con hot module replacement (HMR):
 
 ```bash
 npm run dev
 ```
 
-The application will be available at `http://localhost:5173/`
+La aplicación estará disponible en `http://localhost:5173/`
 
-#### Production Build
+#### Compilación para producción
 
-Build the application for production:
+Genera la versión optimizada para producción:
 
 ```bash
 npm run build
 ```
 
-This command will:
+Este comando realizará:
 
-1. Run TypeScript compiler to check for type errors
-2. Build the application using Vite
-3. Output the optimized files to the `dist/` directory
+1. Ejecutar el compilador de TypeScript para comprobar errores de tipos
+2. Compilar la aplicación usando Vite
+3. Generar los archivos optimizados en el directorio `dist/`
 
-#### Preview Production Build
+#### Previsualizar la compilación de producción
 
-Preview the production build locally:
+Previsualiza la compilación de producción localmente:
 
 ```bash
 npm run preview
 ```
 
-This will serve the built files from the `dist/` directory.
+Esto servirá los archivos generados desde el directorio `dist/`.
 
-## 📁 Project Structure
+## 📁 Estructura del proyecto
 
 ```
 brillo-celular/
-├── src/                  # Source files
-│   ├── main.tsx         # Application entry point (React)
-│   ├── App.tsx          # Root React component
-│   ├── counter.ts       # Example TypeScript module (wires the counter button)
-│   ├── style.css        # Application styles
-│   └── typescript.svg   # TypeScript logo
-├── public/              # Static assets
-│   └── vite.svg         # Vite logo
-├── index.html           # HTML entry point
-├── package.json         # Project dependencies and scripts
-├── tsconfig.json        # TypeScript configuration (JSX enabled)
-└── vite.config.js       # Vite configuration (optional)
+├── src/                 # Archivos fuente
+│   ├── main.tsx         # Punto de entrada de la aplicación (React)
+│   ├── App.tsx          # Componente raíz de React
+│   ├── style.css        # Estilos de la aplicación
+│   └── typescript.svg   # Logo de TypeScript
+├── public/              # Recursos estáticos
+│   └── vite.svg         # Logo de Vite
+├── index.html           # Punto de entrada HTML
+├── package.json         # Dependencias y scripts del proyecto
+├── tsconfig.json        # Configuración de TypeScript (JSX habilitado)
+└── vite.config.js       # Configuración de Vite (opcional)
 ```
 
-## 🛠️ Available Scripts
+## 🛠️ Scripts disponibles
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build locally
+- `npm run dev` - Inicia el servidor de desarrollo
+- `npm run build` - Compila para producción
+- `npm run preview` - Previsualiza la compilación de producción localmente
 
-## 🔧 Configuration
+## 🔧 Configuración
 
 ### TypeScript
 
-TypeScript is configured with strict mode enabled. You can modify the configuration in `tsconfig.json`.
+TypeScript está configurado con modo estricto habilitado. Puedes modificar la configuración en `tsconfig.json`.
 
 ### Vite
 
-Vite configuration can be customized by creating a `vite.config.ts` file in the root directory if needed.
+La configuración de Vite puede personalizarse creando un archivo `vite.config.ts` en la raíz si es necesario.
 
-## 📝 Development
+## 📝 Desarrollo
 
-To start developing:
+Para comenzar a desarrollar:
 
-1. Start the development server: `npm run dev`
-2. Open `src/main.tsx` and start coding (the app now uses React/TSX)
-3. Changes will be reflected immediately in the browser thanks to HMR
+1. Inicia el servidor de desarrollo: `npm run dev`
+2. Abre `src/main.tsx` y comienza a codificar (la aplicación ahora usa React/TSX)
+3. Los cambios se reflejarán inmediatamente en el navegador gracias a HMR
 
-## 🏗️ Building for Production
+## 🏗️ Compilar para producción
 
-When you're ready to deploy:
+Cuando estés listo para desplegar:
 
-1. Run `npm run build` to create an optimized production build
-2. The output will be in the `dist/` directory
-3. Deploy the contents of the `dist/` directory to your hosting service
+1. Ejecuta `npm run build` para crear una compilación optimizada
+2. La salida estará en el directorio `dist/`
+3. Despliega el contenido del directorio `dist/` en tu servicio de hosting
 
-## 📚 Learn More
+## 📄 Licencia
 
-- [Vite Documentation](https://vite.dev/)
-- [TypeScript Documentation](https://www.typescriptlang.org/)
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
+Este proyecto es de código abierto y está disponible bajo la [licencia MIT](LICENSE).
