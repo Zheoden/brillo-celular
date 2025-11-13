@@ -5,6 +5,7 @@ A blank Vite project with TypeScript setup, ready for development.
 ## 📋 Prerequisites
 
 Before you begin, ensure you have the following installed:
+
 - [Node.js](https://nodejs.org/) (version 18 or higher recommended)
 - npm (comes with Node.js)
 
@@ -13,12 +14,14 @@ Before you begin, ensure you have the following installed:
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/Zheoden/brillo-celular.git
 cd brillo-celular
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
@@ -44,6 +47,7 @@ npm run build
 ```
 
 This command will:
+
 1. Run TypeScript compiler to check for type errors
 2. Build the application using Vite
 3. Output the optimized files to the `dist/` directory
@@ -63,16 +67,17 @@ This will serve the built files from the `dist/` directory.
 ```
 brillo-celular/
 ├── src/                  # Source files
-│   ├── main.ts          # Application entry point
-│   ├── counter.ts       # Example TypeScript module
+│   ├── main.tsx         # Application entry point (React)
+│   ├── App.tsx          # Root React component
+│   ├── counter.ts       # Example TypeScript module (wires the counter button)
 │   ├── style.css        # Application styles
 │   └── typescript.svg   # TypeScript logo
 ├── public/              # Static assets
-│   └── vite.svg        # Vite logo
-├── index.html          # HTML entry point
-├── package.json        # Project dependencies and scripts
-├── tsconfig.json       # TypeScript configuration
-└── vite.config.js      # Vite configuration (optional)
+│   └── vite.svg         # Vite logo
+├── index.html           # HTML entry point
+├── package.json         # Project dependencies and scripts
+├── tsconfig.json        # TypeScript configuration (JSX enabled)
+└── vite.config.js       # Vite configuration (optional)
 ```
 
 ## 🛠️ Available Scripts
@@ -96,7 +101,7 @@ Vite configuration can be customized by creating a `vite.config.ts` file in the 
 To start developing:
 
 1. Start the development server: `npm run dev`
-2. Open `src/main.ts` and start coding
+2. Open `src/main.tsx` and start coding (the app now uses React/TSX)
 3. Changes will be reflected immediately in the browser thanks to HMR
 
 ## 🏗️ Building for Production
