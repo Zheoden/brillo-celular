@@ -210,12 +210,45 @@ h1 {
   align-items: center;
   justify-content: center;
   transition: background 160ms linear;
+  position: relative;
 }
 .phone-screen .screen-overlay {
   color: hsl(0 0% calc((1 - var(--brightness, 1)) * 100%));
   font-size: 1.6rem;
   font-weight: 600;
   text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+
+/* label placed inside the phone screen, top-centered */
+.screen-top-label {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.28);
+  color: rgba(255,255,255,0.95);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  pointer-events: none;
+}
+
+/* Label above the phone screen showing percent and nits */
+.screen-label {
+  max-width: 1080px;
+  margin: 12px auto 6px;
+  text-align: center;
+  color: rgba(0,0,0,0.9);
+  font-size: 1rem;
+  font-weight: 600;
+}
+.screen-label small {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.75);
 }
 
 

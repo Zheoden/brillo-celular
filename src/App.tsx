@@ -10,8 +10,9 @@ interface FormBuilder {
 }
 
 export default function App() {
+  const maxNits = 1900;
   const [fields, setFields] = useState<FormBuilder[]>([
-    { label: "θi [Nits]", type: "range", value: "1400", range: 1900 },
+    { label: "θi [Nits]", type: "range", value: "1400", range: maxNits },
     {
       label: "Luz Ambiente (Perturbacion) [Lux]",
       type: "range",
@@ -27,6 +28,8 @@ export default function App() {
   const valuesRef = useRef<FormBuilder[]>(fields);
   const screenRef = useRef<HTMLDivElement | null>(null);
   const brightnessAnimRef = useRef<number | null>(null);
+  const [brightPercentage, setBrightPercentage] = useState<string>();
+  const [nitsTransitorio, setNitsTransitorio] = useState<string>();
 
   const handleChange = (index: number, next: string) => {
     setFields((prev) => {
@@ -44,7 +47,6 @@ export default function App() {
 
   useEffect(() => {
     const targetNits = Number(fields[2]?.value) || 0;
-    const maxNits = 1900;
     const target = Math.max(0, Math.min(1, targetNits / maxNits));
 
     if (!screenRef.current) return;
@@ -69,7 +71,7 @@ export default function App() {
     const totalMs = 1400; // total animation time
     const stepMs = Math.max(5, Math.round(totalMs / steps));
     const delta = (target - current) / steps;
-    handleChange(4, String((delta * 1900 * 14.28).toFixed(2)));
+    handleChange(4, String((delta * maxNits * 14.28).toFixed(2)));
     let step = 0;
 
     brightnessAnimRef.current = window.setInterval(() => {
@@ -90,6 +92,8 @@ export default function App() {
           );
         }
       }
+      setNitsTransitorio((current * maxNits).toFixed(2));
+      setBrightPercentage(current.toFixed(2));
     }, stepMs);
 
     return () => {
@@ -157,6 +161,9 @@ export default function App() {
       </div>
 
       <div className="phone-screen" ref={screenRef} aria-hidden={false}>
+        <div className="screen-top-label">
+          {`Brillo: ${brightPercentage}% — ${nitsTransitorio} nits`}
+        </div>
         <div className="screen-overlay"></div>
       </div>
     </>
