@@ -61,7 +61,8 @@ h1 {
 
 /* New styles for the stacked input form */
 .form-container {
-  max-width: 480px;
+  max-width: 1080px;
+  min-width: 560px;
   margin: 28px auto;
   padding: 16px;
   background: rgba(255, 255, 255, 0.02);
@@ -84,6 +85,137 @@ h1 {
   outline: none;
   box-shadow: 0 4px 12px rgba(100,108,255,0.12);
   border-color: rgba(100,108,255,0.6);
+}
+
+/* Range slider styled as a progress bar */
+.form-container .field input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 14px;
+  background: linear-gradient(90deg, var(--accent, #ffffff) var(--percent, 0%), rgba(255,255,255,0.12) var(--percent, 0%));
+  border-radius: 8px;
+  border: none;
+  padding: 0;
+}
+
+.form-container .field input[type="range"]:focus {
+  outline: none;
+  box-shadow: 0 6px 18px rgba(100,108,255,0.12);
+}
+
+.form-container .field input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #646cff;
+  margin-top: -4px; /* center the thumb */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  cursor: pointer;
+}
+
+.form-container .field input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #646cff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  cursor: pointer;
+}
+
+.form-container .field input[type="range"]::-moz-range-track {
+  height: 12px;
+  border-radius: 8px;
+  background: transparent;
+}
+
+.form-container .field span {
+  color: inherit;
+  font-size: 0.95rem;
+}
+
+/* utility classes used by the React App component */
+.form-container .field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.field-label {
+  display: inline-block;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+  width: 140px; /* fixed label column */
+  flex: 0 0 140px;
+}
+.range-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.range-value {
+  min-width: 56px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.number-input {
+  min-width: 96px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.2);
+  color: inherit;
+  text-align: center;
+}
+.text-input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+.range-input {
+  flex: 1;
+  min-width: 480px;
+}
+
+/* Responsive: on narrow screens stack label above input */
+@media (max-width: 480px) {
+  .form-container .field {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .field-label {
+    width: auto;
+    flex: none;
+    margin-bottom: 6px;
+  }
+  .range-wrapper {
+    width: 100%;
+  }
+}
+
+/* Phone screen simulator */
+.phone-screen {
+  width: 100%;
+  height: 280px;
+  margin: 18px auto 0;
+  border-radius: 20px;
+  background: hsl(0 0% calc(var(--brightness, 1) * 100%));
+  box-shadow: 0 12px 36px rgba(0,0,0,0.5) inset, 0 8px 30px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 160ms linear;
+}
+.phone-screen .screen-overlay {
+  color: hsl(0 0% calc((1 - var(--brightness, 1)) * 100%));
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
 }
 
 

@@ -1,57 +1,164 @@
 import { useState, useEffect, useRef } from "react";
 import "./style.css";
+import { ConversorLuxtoNits } from "./utils";
+
+interface FormBuilder {
+  label: string;
+  type: string;
+  value: string;
+  range?: number;
+}
 
 export default function App() {
-  const [values, setValues] = useState<string[]>(Array(6).fill(""));
+  const [fields, setFields] = useState<FormBuilder[]>([
+    { label: "θi [Nits]", type: "range", value: "1400", range: 1900 },
+    {
+      label: "Luz Ambiente (Perturbacion) [Lux]",
+      type: "range",
+      value: "5000",
+      range: 10000,
+    },
+    { label: "θo [Nits]", type: "label", value: "0" },
+    { label: "Error [Nits]", type: "label", value: "0" },
+    { label: "θo Controlador [Nits/s]", type: "label", value: "0" },
+    { label: "F [Lux]", type: "label", value: "5000" },
+  ]);
 
-  // Labels for each input
-  const labels = ["θi", "θo", "error", "F", "θoc", "Perturbacion"];
+  const valuesRef = useRef<FormBuilder[]>(fields);
+  const screenRef = useRef<HTMLDivElement | null>(null);
+  const brightnessAnimRef = useRef<number | null>(null);
 
   const handleChange = (index: number, next: string) => {
-    setValues((prev) => {
-      const copy = [...prev];
-      copy[index] = next;
-      // Keep ref in sync with the latest values so the interval can read them
+    setFields((prev) => {
+      const copy = prev.map((p, i) =>
+        i === index ? { ...p, value: next } : p
+      );
       valuesRef.current = copy;
       return copy;
     });
+    if (index === 1) {
+      handleChange(5, next);
+      handleChange(2, String(ConversorLuxtoNits(Number(next))));
+    }
   };
 
-  // Ref that always points to the latest values so the interval callback reads up-to-date data
-  const valuesRef = useRef<string[]>(values);
-
-  // Interval: log current values every 1 second
   useEffect(() => {
-    const id = setInterval(() => {
-      for (let i = 0; i < valuesRef.current.length; i++) {
-        console.log(`${labels[i]}: ${valuesRef.current[i]}`);
+    const targetNits = Number(fields[2]?.value) || 0;
+    const maxNits = 1900;
+    const target = Math.max(0, Math.min(1, targetNits / maxNits));
+
+    if (!screenRef.current) return;
+
+    const inline = screenRef.current.style.getPropertyValue("--brightness");
+    const computed = getComputedStyle(screenRef.current).getPropertyValue(
+      "--brightness"
+    );
+    let current = parseFloat(inline || computed) || 0;
+
+    if (Math.abs(current - target) < 0.0001) {
+      screenRef.current.style.setProperty("--brightness", target.toFixed(2));
+      return;
+    }
+
+    if (brightnessAnimRef.current !== null) {
+      clearInterval(brightnessAnimRef.current);
+      brightnessAnimRef.current = null;
+    }
+
+    const steps = 20;
+    const totalMs = 1400; // total animation time
+    const stepMs = Math.max(5, Math.round(totalMs / steps));
+    const delta = (target - current) / steps;
+    handleChange(4, String((delta * 1900 * 14.28).toFixed(2)));
+    let step = 0;
+
+    brightnessAnimRef.current = window.setInterval(() => {
+      step += 1;
+      current = current + delta;
+      if (screenRef.current) {
+        screenRef.current.style.setProperty("--brightness", current.toFixed(2));
       }
-      console.log("------------------------------------------------");
-    }, 1000);
-    return () => clearInterval(id);
-  }, []);
+      if (step >= steps) {
+        if (brightnessAnimRef.current !== null) {
+          clearInterval(brightnessAnimRef.current);
+          brightnessAnimRef.current = null;
+        }
+        if (screenRef.current) {
+          screenRef.current.style.setProperty(
+            "--brightness",
+            target.toFixed(2)
+          );
+        }
+      }
+    }, stepMs);
+
+    return () => {
+      if (brightnessAnimRef.current !== null) {
+        clearInterval(brightnessAnimRef.current);
+        brightnessAnimRef.current = null;
+      }
+    };
+  }, [fields[2]?.value]);
+
+  useEffect(() => {
+    handleChange(
+      3,
+      String(
+        (
+          Number(fields[0].value) - ConversorLuxtoNits(Number(fields[1].value))
+        ).toFixed(2)
+      )
+    );
+  }, [fields[0]?.value, fields[2]?.value]);
+
+  useEffect(() => {
+    handleChange(
+      2,
+      String((Number(fields[0].value) - Number(fields[3].value)).toFixed(2))
+    );
+  }, [fields[3]?.value]);
 
   return (
-    <div className="form-container">
-      {values.map((v, i) => (
-        <div className="field" key={i} style={{ marginBottom: "12px" }}>
-          <label
-            htmlFor={`input-${i}`}
-            style={{ display: "block", marginBottom: "4px" }}
-          >
-            {labels[i] ?? `Input ${i + 1}`}
-          </label>
-          <input
-            id={`input-${i}`}
-            name={labels[i] ?? `input-${i}`}
-            type="text"
-            placeholder={labels[i]}
-            value={v}
-            onChange={(e) => handleChange(i, e.target.value)}
-            style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
-          />
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="form-container">
+        {fields.map((field, index) => (
+          <div className="field" key={index}>
+            <label htmlFor={`input-${index}`} className="field-label">
+              {field.label ?? `Input ${index + 1}`}
+            </label>
+
+            {field.type === "range" ? (
+              <div className="range-wrapper">
+                <input
+                  id={`input-${index}`}
+                  type="range"
+                  min={0}
+                  max={field.range ?? 100}
+                  value={Number(field.value) || 0}
+                  onChange={(e) => handleChange(index, e.target.value)}
+                  className="range-input"
+                  style={{
+                    ["--percent" as any]: `${
+                      ((Number(field.value) || 0) / (field.range ?? 100)) * 100
+                    }%`,
+                  }}
+                />
+                <span className="range-value">
+                  {Number(field.value) || 0}/{field.range ?? 100}
+                </span>
+              </div>
+            ) : field.type === "label" ? (
+              <span className="label-value">{field.value}</span>
+            ) : (
+              <></>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="phone-screen" ref={screenRef} aria-hidden={false}>
+        <div className="screen-overlay"></div>
+      </div>
+    </>
   );
 }
